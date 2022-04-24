@@ -17,20 +17,20 @@ class Contenedo{
         
 
         for(let i = 0; i < productId.length; i++){
-            id < productId[i] ? id = productId[i] + 1 : id = 0
+            id < productId[i] || id == productId[i] ? id = productId[i] + 1 : id = 0
         }
-    
+        object.id = id
 
-        const nuevaInfo = infoParsed.push(object); 
+        infoParsed.push(object); 
+        console.table(infoParsed);
 
-        console.log(nuevaInfo);
-      
+        const newProdString = JSON.stringify(infoParsed); 
+        const newProductTXT = await fs.promises.writeFile(this.file, newProdString, 'utf-8')
 
-        console.table(nuevaInfo)
-        
+        return object.id
     }
 
-   /*  async GetById(number){
+    async GetById(number){
         
         try {
             const infoTXT = await fs.promises.readFile(this.file,'utf-8'); 
@@ -40,6 +40,8 @@ class Contenedo{
             if(index.includes(number)){
                 let ids = index.indexOf(number); 
                 console.log(infoParsed[ids]);
+
+                return infoParsed[ids]; 
             }else{
                 console.log(null);
             }
@@ -56,6 +58,8 @@ class Contenedo{
         const infoTXT = await fs.promises.readFile(this.file,'utf-8'); 
         const infoParsed = JSON.parse(infoTXT);
         console.log(infoParsed);
+
+        return infoParsed; 
 
        }catch(error){
            console.log(error);
@@ -96,8 +100,7 @@ class Contenedo{
     }
 
 }
- */
-}
+
 
 
 
@@ -105,16 +108,13 @@ let Contenedor = new Contenedo('./productos.txt');
 
 const product1 = {
     id: '',
-    nombre:"hola",
+    nombre:"pizarra",
     precio:1231
 }
-
-
 Contenedor.Save(product1)
 
-/* Contenedor.GetById(2);  
+Contenedor.GetById(6);  
 
 Contenedor.GetAll(); 
 
 Contenedor.DeleteById(1);
- */
