@@ -1,3 +1,4 @@
+const { table } = require('console');
 const fs = require('fs'); 
 let id = 0; 
 
@@ -7,18 +8,29 @@ class Contenedo{
     }
 
     async Save(object){
+        let id = 0; 
         const infoTXT = await fs.promises.readFile(this.file,'utf-8'); 
+        const infoParsed = JSON.parse(infoTXT); 
 
-        const infoParsed = JSON.parse(infoTXT);
+        let productId = infoParsed.map(e => e.id)
 
-        let nuevaInfo = infoParsed.push(object); 
+        
 
-        const nuevosProductosString = JSON.stringify(infoParsed); 
+        for(let i = 0; i < productId.length; i++){
+            id < productId[i] ? id = productId[i] + 1 : id = 0
+        }
+    
 
-        const nuevosProductoTXT = await fs.promises.writeFile(this.file,nuevosProductosString,'utf-8'); 
+        const nuevaInfo = infoParsed.push(object); 
+
+        console.log(nuevaInfo);
+      
+
+        console.table(nuevaInfo)
+        
     }
 
-    async GetById(number){
+   /*  async GetById(number){
         
         try {
             const infoTXT = await fs.promises.readFile(this.file,'utf-8'); 
@@ -84,23 +96,25 @@ class Contenedo{
     }
 
 }
-
-
+ */
+}
 
 
 
 let Contenedor = new Contenedo('./productos.txt'); 
 
 const product1 = {
-    nombre:"pizarra",
+    id: '',
+    nombre:"hola",
     precio:1231
 }
 
 
 Contenedor.Save(product1)
 
-Contenedor.GetById(2);  
+/* Contenedor.GetById(2);  
 
 Contenedor.GetAll(); 
 
 Contenedor.DeleteById(1);
+ */
